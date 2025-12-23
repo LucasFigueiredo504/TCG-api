@@ -1,6 +1,4 @@
-import { relations } from "drizzle-orm";
 import { integer, pgTable, varchar } from "drizzle-orm/pg-core";
-import { gamesTable } from "./game";
 
 export const playersTable = pgTable("players", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
@@ -8,10 +6,3 @@ export const playersTable = pgTable("players", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   passwordHash: varchar("password", { length: 255 }).notNull(),
 });
-
-export const playersRelations = relations(playersTable, ({ one }) => ({
-  game: one(gamesTable, {
-    fields: [playersTable.id],
-    references: [gamesTable.playerId],
-  }),
-}));

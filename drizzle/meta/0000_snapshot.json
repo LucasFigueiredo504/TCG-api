@@ -1,11 +1,11 @@
 {
-  "id": "bffd57a5-5ec4-4b27-be84-698e83e940b2",
+  "id": "3aa7b927-8bb1-42ee-a8f9-09b27288894d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.games": {
-      "name": "games",
+    "public.decks": {
+      "name": "decks",
       "schema": "",
       "columns": {
         "id": {
@@ -15,7 +15,7 @@
           "notNull": true,
           "identity": {
             "type": "always",
-            "name": "games_id_seq",
+            "name": "decks_id_seq",
             "schema": "public",
             "increment": "1",
             "startWith": "1",
@@ -25,81 +25,44 @@
             "cycle": false
           }
         },
-        "gold": {
-          "name": "gold",
-          "type": "numeric",
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false,
-          "default": "'0'"
+          "notNull": true
         },
-        "metl": {
-          "name": "metl",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'0'"
-        },
-        "fuel": {
-          "name": "fuel",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'0'"
-        },
-        "level": {
-          "name": "level",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'0'"
-        },
-        "lst_online": {
-          "name": "lst_online",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "last_time_base_spawned": {
-          "name": "last_time_base_spawned",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "unlocked_units": {
-          "name": "unlocked_units",
-          "type": "numeric[]",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'{}'"
-        },
-        "owned_units": {
-          "name": "owned_units",
+        "cards_ids": {
+          "name": "cards_ids",
           "type": "integer[]",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
           "default": "'{}'"
         },
         "player_id": {
           "name": "player_id",
-          "type": "varchar",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         }
       },
       "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "games_player_id_unique": {
-          "name": "games_player_id_unique",
-          "nullsNotDistinct": false,
-          "columns": [
+      "foreignKeys": {
+        "decks_player_id_players_id_fk": {
+          "name": "decks_player_id_players_id_fk",
+          "tableFrom": "decks",
+          "tableTo": "players",
+          "columnsFrom": [
             "player_id"
-          ]
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -156,105 +119,6 @@
           ]
         }
       },
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.units": {
-      "name": "units",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "identity": {
-            "type": "always",
-            "name": "units_id_seq",
-            "schema": "public",
-            "increment": "1",
-            "startWith": "1",
-            "minValue": "1",
-            "maxValue": "2147483647",
-            "cache": "1",
-            "cycle": false
-          }
-        },
-        "pos_x": {
-          "name": "pos_x",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "pos_y": {
-          "name": "pos_y",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "level": {
-          "name": "level",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "current_hp": {
-          "name": "current_hp",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "current_level": {
-          "name": "current_level",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "type_id": {
-          "name": "type_id",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "resource_amount": {
-          "name": "resource_amount",
-          "type": "numeric",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "last_time_collected": {
-          "name": "last_time_collected",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "now()"
-        },
-        "is_ready": {
-          "name": "is_ready",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": true
-        },
-        "available": {
-          "name": "available",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false,
-          "default": true
-        },
-        "game_id": {
-          "name": "game_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
