@@ -5,6 +5,7 @@ import { playersTable } from "./player";
 export const decksTable = pgTable("decks", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   name: varchar("name", { length: 255 }).notNull(),
+  coins: integer("coins").notNull().default(0),
   cardsIds: integer("cards_ids").array().notNull().default([]),
   playerId: integer("player_id")
     .notNull()
