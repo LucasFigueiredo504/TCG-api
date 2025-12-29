@@ -1,0 +1,1 @@
+ALTER TABLE "players" ADD COLUMN "owned_cards" integer[] DEFAULT '{}' NOT NULL;

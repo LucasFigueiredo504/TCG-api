@@ -15,6 +15,20 @@
       "when": 1766781970835,
       "tag": "0001_daily_misty_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1767034096451,
+      "tag": "0002_clear_sharon_ventura",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1767034176264,
+      "tag": "0003_tidy_gideon",
+      "breakpoints": true
     }
   ]
 }
