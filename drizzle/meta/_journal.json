@@ -8,6 +8,13 @@
       "when": 1766454168298,
       "tag": "0000_shiny_beast",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766781970835,
+      "tag": "0001_daily_misty_knight",
+      "breakpoints": true
     }
   ]
 }
