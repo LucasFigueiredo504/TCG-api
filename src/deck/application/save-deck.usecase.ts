@@ -1,6 +1,6 @@
 export async function saveDeckUseCase(
   playerId: number,
-  deckName: number,
+  deckName: string | null,
   cardIds: Array<number>
 ) {
   try {
