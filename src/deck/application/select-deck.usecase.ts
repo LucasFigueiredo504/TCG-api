@@ -1,7 +1,18 @@
+import { deckRepository } from "../infra/deck.repository";
+import { playerRepository } from "../../player/infra/player.repository";
+
 export async function selectDeckUseCase(playerId: number, deckId: number) {
-  try {
-    return { status: 200, message: "success" };
-  } catch (error) {
-    console.log("Error when selecting deck", error);
+  const deck = await deckRepository.findById(deckId);
+
+  if (!deck) {
+    return { status: 404 };
   }
+
+  if (deck.playerId !== playerId) {
+    return { status: 403 };
+  }
+
+  await playerRepository.updateSelectedDeck(playerId, deckId);
+
+  return { status: 200 };
 }

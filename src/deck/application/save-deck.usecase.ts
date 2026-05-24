@@ -1,11 +1,22 @@
+import { deckRepository } from "../infra/deck.repository";
+
 export async function saveDeckUseCase(
   playerId: number,
-  deckName: string | null,
-  cardIds: Array<number>
+  deckName: string,
+  cardIds: number[],
 ) {
-  try {
-    return { status: 200, message: "success" };
-  } catch (error) {
-    console.log("Error when saving deck", error);
+  if (!deckName || cardIds.length === 0) {
+    return {
+      status: 400,
+      error: "Deck name and at least one card are required",
+    };
   }
+
+  const deck = await deckRepository.upsert(playerId, deckName, cardIds);
+
+  if (!deck) {
+    return { status: 404 };
+  }
+
+  return { status: 200, deck };
 }
