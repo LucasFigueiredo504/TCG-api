@@ -18,7 +18,7 @@ app.register(fastifyRateLimit, {
       statusCode: 429,
       error: "Too Many Requests",
       message: `Rate limit exceeded, retry in ${Math.round(
-        context.ttl / 1000
+        context.ttl / 1000,
       )} seconds`,
     };
   },
@@ -29,9 +29,9 @@ const PORT = process.env.PORT || 3333;
 const start = async () => {
   try {
     await import("./decorators");
-    await import("./game/infra/game-state-controller");
     await import("./auth/infra/auth-controller");
-    await import("./resources/infra/resources-controller");
+    await import("./deck/infra/deck.controller");
+    await import("./player/infra/player.controller");
 
     await app.listen({
       host: "0.0.0.0",

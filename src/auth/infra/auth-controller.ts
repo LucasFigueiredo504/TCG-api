@@ -14,7 +14,7 @@ interface SignUpBody {
 }
 
 interface AuthResponse {
-  token: string;
+  token: string | undefined;
 }
 
 app.post(
@@ -34,13 +34,13 @@ app.post(
     const response: AuthResponse = { token };
 
     return reply.status(200).send(response);
-  }
+  },
 );
 app.post(
   "/auth/signup",
   async (
     request: FastifyRequest<{ Body: SignUpBody }>,
-    reply: FastifyReply
+    reply: FastifyReply,
   ) => {
     const { userName, email, password } = request.body;
 
@@ -50,11 +50,19 @@ app.post(
       data: token,
     } = await signupUserUseCase(userName, email, password);
 
+    console.log("Signing up");
     if (status != 200) {
       return reply.status(status).send(message);
     }
     const response: AuthResponse = { token };
 
     return reply.status(200).send(response);
-  }
+  },
+);
+app.get(
+  "/auth/me",
+  { preHandler: [app.authenticate] },
+  async (request: FastifyRequest, reply: FastifyReply) => {
+    return reply.status(200).send({ id: (request.user as any).id });
+  },
 );
