@@ -47,21 +47,19 @@ app.post(
     return reply.status(200).send({ deck: result.deck });
   },
 );
-
 app.post(
   "/deck/selected",
   async (request: FastifyRequest, reply: FastifyReply) => {
-    const { playerIds } = request.body as { playerIds: number[] };
+    const { playerId } = request.body as { playerId: number };
 
-    const result = await getSelectedDeckUseCase(playerIds);
-
+    const result = await getSelectedDeckUseCase(playerId);
+    console.log(result);
+    console.log({ ReceivedId: playerId });
     if (result?.status === 404) {
-      return reply.status(404).send({
-        error: `No selected deck found for player ${result.playerId}`,
-      });
+      return reply.status(404).send({ error: "No selected deck found" });
     }
 
-    return reply.status(200).send({ decks: result.decks });
+    return reply.status(200).send({ deck: result.deck });
   },
 );
 

@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { app } from "../..";
 import { loginUserUseCase } from "../application/login-user.usecase";
 import { signupUserUseCase } from "../application/signup-user.usecase";
@@ -7,14 +7,11 @@ interface LoginBody {
   email: string;
   password: string;
 }
+
 interface SignUpBody {
   userName: string;
   email: string;
   password: string;
-}
-
-interface AuthResponse {
-  token: string | undefined;
 }
 
 app.post(
@@ -22,20 +19,16 @@ app.post(
   async (request: FastifyRequest<{ Body: LoginBody }>, reply: FastifyReply) => {
     const { email, password } = request.body;
 
-    const {
-      status,
-      message,
-      data: token,
-    } = await loginUserUseCase(email, password);
+    const { status, message, data } = await loginUserUseCase(email, password);
 
-    if (status != 200) {
-      return reply.status(status).send(message);
-    }
-    const response: AuthResponse = { token };
+    if (status != 200) return reply.status(status).send(message);
 
-    return reply.status(200).send(response);
+    return reply
+      .status(200)
+      .send({ token: data!.token, playerId: data!.playerId });
   },
 );
+
 app.post(
   "/auth/signup",
   async (
@@ -44,21 +37,20 @@ app.post(
   ) => {
     const { userName, email, password } = request.body;
 
-    const {
-      status,
-      message,
-      data: token,
-    } = await signupUserUseCase(userName, email, password);
+    const { status, message, data } = await signupUserUseCase(
+      userName,
+      email,
+      password,
+    );
 
-    console.log("Signing up");
-    if (status != 200) {
-      return reply.status(status).send(message);
-    }
-    const response: AuthResponse = { token };
+    if (status != 200) return reply.status(status).send(message);
 
-    return reply.status(200).send(response);
+    return reply
+      .status(200)
+      .send({ token: data!.token, playerId: data!.playerId });
   },
 );
+
 app.get(
   "/auth/me",
   { preHandler: [app.authenticate] },

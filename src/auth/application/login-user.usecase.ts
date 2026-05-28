@@ -9,16 +9,20 @@ export async function loginUserUseCase(email: string, password: string) {
     if (!user) {
       return { status: 404, message: "User not found" };
     }
+
     const doesPasswordMatch = await bcrypt.compare(password, user.passwordHash);
 
     if (!doesPasswordMatch) {
       return { status: 400, message: "Invalid credentials" };
     }
 
-    // Use fastify.jwt.sign
     const token = app.jwt.sign({ id: user.id, email: user.email });
 
-    return { status: 200, message: "success", data: token };
+    return {
+      status: 200,
+      message: "success",
+      data: { token, playerId: user.id },
+    };
   } catch (error) {
     return { status: 500, message: "error", error };
   }
