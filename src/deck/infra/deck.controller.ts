@@ -82,7 +82,9 @@ app.post(
         .send({ error: "Deck does not belong to player" });
     }
 
-    return reply.status(200).send({ message: "Deck selected successfully" });
+    return reply
+      .status(200)
+      .send({ message: "Deck selected successfully", deck: result.deck });
   },
 );
 app.post(

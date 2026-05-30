@@ -14,5 +14,5 @@ export async function selectDeckUseCase(playerId: number, deckId: number) {
 
   await playerRepository.updateSelectedDeck(playerId, deckId);
 
-  return { status: 200 };
+  return { status: 200, deck };
 }
